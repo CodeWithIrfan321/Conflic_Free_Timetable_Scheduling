@@ -1,0 +1,1 @@
+See README in description. Import timetable_db.sql into phpMyAdmin.
