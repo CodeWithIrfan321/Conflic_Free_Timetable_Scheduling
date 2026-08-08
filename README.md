@@ -59,7 +59,7 @@ Screenshots
 
 Main Timetable
 
-![Main Timetable](screenshot/main-timetable.png)
+![Main Timetable](./screenshot/main-timetable.png)
 
 Admin Login
 
