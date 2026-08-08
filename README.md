@@ -77,3 +77,9 @@ Course Management
 Timetable View
 
 ![Timetable View](screenshot/timetable-view.png)
+
+Project Purpose
+
+The project was developed to provide a simple and centralized approach to university timetable management. It enables administrators to manage course information and allows students/users to view semester-wise timetables through a user-friendly web interface.
+
+The system was developed as my Final Year Project in Computer Systems Engineering, with a focus on practical web development, database management, and solving a real-world university scheduling problem.
