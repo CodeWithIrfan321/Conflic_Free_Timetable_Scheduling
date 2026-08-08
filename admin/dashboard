@@ -1,0 +1,145 @@
+<?php
+session_start();
+if (!isset($_SESSION['admin_logged']) || !$_SESSION['admin_logged']) {
+  header('Location: login.php');
+  exit;
+}
+?>
+<!doctype html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>Admin Dashboard - Timetable</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Admin Dashboard</h2>
+  <p>
+    <a href="../index.php" style="margin-right: 20px;">View Public Timetable</a> |
+    <a href="logout.php">Logout</a>
+  </p>
+
+  <h3>Add Course</h3>
+  <form id="addForm">
+    <label>Semester</label><br>
+    <select name="semester" required>
+      <option value="2">2nd</option>
+      <option value="4">4th</option>
+      <option value="6">6th</option>
+      <option value="8">8th</option>
+    </select><br>
+    <label>Course Name</label><br><input name="course_name" required style="width:60%"><br>
+    <label>Teacher</label><br><input name="teacher" required style="width:60%"><br>
+    <label>Room</label><br><input name="room" required style="width:60%"><br>
+    <label>Day</label><br>
+    <select name="day" required>
+      <option>Monday</option>
+      <option>Tuesday</option>
+      <option>Wednesday</option>
+      <option>Thursday</option>
+      <option>Friday</option>
+    </select><br>
+    <label>Start</label><br><input type="time" name="start_time" required><br>
+    <label>End</label><br><input type="time" name="end_time" required><br><br>
+    <button type="button" onclick="addCourse()">Add Course</button>
+  </form>
+
+  <hr>
+  <h3>View Timetable</h3>
+  <select id="viewSemester" onchange="loadTimetable(this.value)">
+    <option value="">Select Semester</option>
+    <option value="2">2nd</option>
+    <option value="4">4th</option>
+    <option value="6">6th</option>
+    <option value="8">8th</option>
+  </select>
+
+  <table id="timetable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Course</th>
+        <th>Teacher</th>
+        <th>Room</th>
+        <th>Day</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    function addCourse() {
+      let fd = new FormData(document.getElementById('addForm'));
+      fetch('../backend/add_course.php', {
+          method: 'POST',
+          body: fd
+        })
+        .then(r => r.json()).then(data => {
+          alert(data.message);
+          if (data.status === 'ok') {
+            loadTimetable(document.getElementById('viewSemester').value);
+          }
+        }).catch(e => alert('Error: ' + e));
+    }
+
+    function loadTimetable(sem) {
+      if (!sem) return;
+      fetch('../backend/get_timetable.php?semester=' + sem)
+        .then(r => r.json()).then(data => {
+          let rows = '';
+          data.forEach((row, idx) => {
+            rows += `<tr>
+          <td>${idx+1}</td>
+          <td>${row.course_name}</td>
+          <td>${row.teacher}</td>
+          <td>${row.room}</td>
+          <td>${row.day}</td>
+          <td>${row.start_time}</td>
+          <td>${row.end_time}</td>
+          <td><button onclick="deleteCourse(${row.course_id})">Delete</button></td>
+        </tr>`;
+          });
+          document.querySelector('#timetable tbody').innerHTML = rows;
+        });
+    }
+
+    function deleteCourse(id) {
+      if (!confirm('Delete this course?')) return;
+      let fd = new FormData();
+      fd.append('course_id', id);
+      fetch('../backend/delete_course.php', {
+          method: 'POST',
+          body: fd
+        })
+        .then(r => r.json()).then(data => {
+          alert(data.message);
+          loadTimetable(document.getElementById('viewSemester').value);
+        });
+    }
+  </script>
+</body>
+
+</html>
