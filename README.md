@@ -54,3 +54,29 @@ Conflict-Free-Timetable-Scheduling-System/
 ├── style.css
 ├── timetable_db.sql
 └── README.md
+
+Screenshots
+
+Main Timetable
+
+![Main Timetable](screenshot/main-timetable.png)
+
+Admin Login
+
+![Admin Login](screenshot/admin-login.png)
+
+Admin Dashboard
+
+![Admin Dashboard](screenshot/admin-dashboard.png)
+
+Course Management
+
+![Course Management](screenshot/course-management.png)
+
+Timetable View
+
+![Timetable View](screenshot/timetable-view.png)
+
+Project Purpose
+
+The project was developed to provide a simple and centralized approach to university timetable management and to reduce the difficulty of handling timetable information manually.
