@@ -1,0 +1,43 @@
+<?php
+session_start();
+if (isset($_SESSION['admin_logged']) && $_SESSION['admin_logged']) {
+  header('Location: dashboard.php');
+  exit;
+}
+
+$err = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $user = $_POST['username'] ?? '';
+  $pass = $_POST['password'] ?? '';
+  if ($user === 'admin' && $pass === '12345') {
+    $_SESSION['admin_logged'] = true;
+    $_SESSION['admin_user'] = 'admin';
+    header('Location: dashboard.php');
+    exit;
+  } else {
+    $err = 'Invalid credentials';
+  }
+}
+?>
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>Admin Login - Timetable</title>
+  <style>body{font-family:Arial;padding:30px} .box{max-width:360px;margin:auto;border:1px solid #ddd;padding:20px;border-radius:6px}</style>
+</head>
+<body>
+  <div class="box">
+    <h2>Admin Login</h2>
+    <?php if($err): ?><p style="color:red;"><?php echo $err; ?></p><?php endif; ?>
+    <form method="post">
+      <label>Username</label><br>
+      <input name="username" required style="width:100%;padding:8px;margin-bottom:10px"><br>
+      <label>Password</label><br>
+      <input name="password" type="password" required style="width:100%;padding:8px;margin-bottom:10px"><br>
+      <button type="submit" style="padding:8px 12px">Login</button>
+    </form>
+    <p style="margin-top:12px;font-size:12px;color:#666">Username: <b>admin</b> | Password: <b>12345</b></p>
+  </div>
+</body>
+</html>
