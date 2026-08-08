@@ -59,7 +59,7 @@ Screenshots
 
 Main Timetable
 
-https://github.com/CodeWithIrfan321/Conflict-Free-Timetable-Scheduling-System/blob/main/screenshot/main-timetable.png?raw=true
+![Main Timetable](https://github.com/CodeWithIrfan321/Conflict-Free-Timetable-Scheduling-System/blob/main/screenshot/main-timetable.png?raw=true)
 
 Admin Login
 
